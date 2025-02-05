@@ -2,11 +2,11 @@ import styles from "@/features/projects/styles/projects.module.css";
 
 import { BsFillFilterSquareFill } from "react-icons/bs";
 import { BsFilterSquare } from "react-icons/bs";
-import { useToggle } from "@/features/core/hooks/useToggle";
+import { useToggle } from "@/features/shared/hooks/useToggle";
 
 import type { ProjectsFilter } from "../types/projects";
 import { useRef } from "react";
-import { useClickOutside } from "@/features/core/hooks/useClickOutside";
+import { useClickOutside } from "@/features/shared/hooks/useClickOutside";
 import { BiCheck } from "react-icons/bi";
 import { MdFilterAltOff } from "react-icons/md";
 

@@ -1,4 +1,4 @@
-import Pagination from "@/features/core/components/Pagination";
+import Pagination from "@/features/shared/components/Pagination";
 import { useProjects } from "@/features/projects/hooks/useProjects";
 import styles from "@/features/projects/styles/projects.module.css";
 import ProjectsModalFilters from "./ProjectsModalFilters";

@@ -2,7 +2,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { useProjectsStore } from "@/features/projects/store/projects";
-import { useDebounce } from "@/features/core/hooks/useDebounce";
+import { useDebounce } from "@/features/shared/hooks/useDebounce";
 
 import { filterProjects } from "@/features/projects/helpers/filterProducts";
 import { ITEMS_PER_PAGE } from "@/features/projects/data/constanst";

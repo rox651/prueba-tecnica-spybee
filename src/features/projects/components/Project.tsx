@@ -2,7 +2,7 @@
 import { memo } from "react";
 import Image from "next/image";
 
-import { isValidUrl } from "@/features/core/helpers/isValidUrl";
+import { isValidUrl } from "@/features/shared/helpers/isValidUrl";
 import { getIncidentsByItem } from "../helpers/getIncidentsByItem";
 import { getUserInitials } from "../helpers/getUserInitials";
 import styles from "@/features/projects/styles/project.module.css";
