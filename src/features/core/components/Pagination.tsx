@@ -1,5 +1,5 @@
-import React from "react";
 import { usePagination } from "../hooks/usePagination";
+import styles from "@/features/projects/styles/projects.module.css";
 
 interface PaginationProps extends React.HTMLAttributes<HTMLDivElement> {
    onPageChange: (page: number) => void;
@@ -32,8 +32,12 @@ const Pagination = ({
    };
 
    return (
-      <div {...props}>
-         <button onClick={onPrevious} disabled={isFirstPage}>
+      <div className={styles.projects__table__pagination} {...props}>
+         <button
+            onClick={onPrevious}
+            disabled={isFirstPage}
+            className={styles.projects__table__pagination__button}
+         >
             Previous
          </button>
 
@@ -41,7 +45,11 @@ const Pagination = ({
             {currentPage} of {totalPages} pages
          </span>
 
-         <button onClick={onNext} disabled={isLastPage}>
+         <button
+            onClick={onNext}
+            disabled={isLastPage}
+            className={styles.projects__table__pagination__button}
+         >
             Next
          </button>
       </div>

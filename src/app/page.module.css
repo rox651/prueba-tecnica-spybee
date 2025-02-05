@@ -1,6 +1,7 @@
 .page {
    --button-primary-hover: #383838;
    --button-secondary-hover: #f2f2f2;
+   padding: 40px;
 }
 
 @media (prefers-color-scheme: dark) {

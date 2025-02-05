@@ -1,8 +1,10 @@
+export type ProjectStatus = "suspended" | "active" | "inactive" | "pending_payment";
+
 export type Project = {
    _id: string;
    title: string;
    projectPlan: ProjectPlan;
-   status: string;
+   status: ProjectStatus;
    img: string;
    lastVisit: string;
    position: Position;
@@ -61,8 +63,10 @@ export type ProjectPlan = {
    _id: string;
 };
 
+export type ProjectPlanType = "small" | "big";
+
 export type ProjectPlanData = {
-   plan: string;
+   plan: ProjectPlanType;
 };
 
 export type User = {

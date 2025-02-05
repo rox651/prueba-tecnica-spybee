@@ -1,0 +1,137 @@
+.project__core {
+   display: flex;
+   align-items: center;
+   gap: 10px;
+   padding: 10px;
+}
+
+.project__title {
+   font-size: 16px;
+   font-weight: 600;
+   margin-bottom: 5px;
+}
+
+.project__image,
+.project__image__placeholder {
+   width: 50px;
+   height: 50px;
+   border-radius: 10px;
+   border: 1px solid #ddd;
+   object-fit: cover;
+}
+
+.project__image__placeholder {
+   background-color: #ddd;
+}
+
+.project__image__placeholder__text {
+   font-size: 12px;
+   color: #ddd;
+}
+
+.project__team {
+   display: flex;
+   align-items: center;
+   gap: -8px;
+}
+
+.project__plan {
+   font-size: 14px;
+   color: #fff;
+   padding: 5px 10px;
+   border-radius: 30px;
+   font-weight: 600;
+   max-width: max-content;
+}
+
+.project__plan.small {
+   background-color: #c35a00;
+}
+
+.project__plan.big {
+   background-color: #7d7c7c;
+}
+
+.project__status {
+   font-size: 14px;
+   color: #fff;
+   padding: 5px 10px;
+   border-radius: 30px;
+   font-weight: 600;
+   max-width: max-content;
+}
+
+.project__status.active {
+   background-color: #dbeedb;
+   color: #81ba8d;
+}
+
+.project__status.suspended {
+   background-color: #f44336;
+   color: #fff;
+}
+
+.project__status.inactive {
+   background-color: #c19102;
+}
+
+.project__status.pending_payment {
+   background-color: #8d5551;
+}
+
+.project__team__initial,
+.project__team__remaining {
+   width: 35px;
+   height: 35px;
+   background-color: var(--user-color, #ffe082);
+   color: #000;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-size: 14px;
+   position: relative;
+   margin: 0;
+   clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+   font-weight: 500;
+}
+
+.project__team__remaining {
+   background-color: #cd9a03;
+}
+
+.project__items {
+   display: flex;
+   align-items: center;
+   gap: 20px;
+}
+
+.project__item {
+   /* text-align: center; */
+}
+
+.project__item__number {
+   font-size: 18px;
+   font-weight: 600;
+   margin-bottom: 5px;
+}
+
+@media (max-width: 768px) {
+   .project__item__number,
+   .project__title {
+      font-size: 14px;
+   }
+
+   .project__item__text,
+   .project__team__initial,
+   .project__team__remaining,
+   .project__plan,
+   .project__status {
+      font-size: 12px;
+   }
+
+   .project__team__initial,
+   .project__team__remaining {
+      width: 25px;
+      height: 25px;
+   }
+}

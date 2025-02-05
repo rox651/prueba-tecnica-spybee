@@ -1,5 +1,5 @@
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { useProjectsStore } from "@/features/projects/store/projects";
 import { useDebounce } from "@/features/core/hooks/useDebounce";
@@ -19,41 +19,53 @@ export const useProjects = () => {
    const debouncedQuery = useDebounce(search, 500);
 
    const currentPage = Number(searchParams.get("page")) || 1;
-   const sort = (searchParams.get("sort") as Sort) || "";
-   const incidentsNumber = (searchParams.get("incidents") as Sort) || "";
-   const RFIsNumber = (searchParams.get("rfis") as Sort) || "";
-   const tasksNumber = (searchParams.get("tasks") as Sort) || "";
+   const sort = (searchParams.get("sort") || "") as Sort;
+   const incidentsNumber = (searchParams.get("incidents") || "") as Sort;
+   const RFIsNumber = (searchParams.get("rfis") || "") as Sort;
+   const tasksNumber = (searchParams.get("tasks") || "") as Sort;
 
-   const { filteredProjects, totalCount } = filterProjects({
-      projects,
-      query: debouncedQuery,
-      sort,
-      incidentsNumber,
-      RFIsNumber,
-      tasksNumber,
-      page: currentPage,
-      itemsPerPage: ITEMS_PER_PAGE,
-   });
+   const isThereFilters = useMemo(() => {
+      return !!sort || !!incidentsNumber || !!RFIsNumber || !!tasksNumber;
+   }, [sort, incidentsNumber, RFIsNumber, tasksNumber]);
 
-   const updateSearchParams = (key: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
+   const { filteredProjects, totalCount } = useMemo(() => {
+      return filterProjects({
+         projects,
+         query: debouncedQuery,
+         sort,
+         incidentsNumber,
+         RFIsNumber,
+         tasksNumber,
+         page: currentPage,
+         itemsPerPage: ITEMS_PER_PAGE,
+      });
+   }, [projects, debouncedQuery, sort, incidentsNumber, RFIsNumber, tasksNumber, currentPage]);
 
-      if (value) {
-         params.set(key, value);
-      } else {
-         params.delete(key);
-      }
+   const updateSearchParams = useCallback(
+      (key: string, value: string) => {
+         const params = new URLSearchParams(searchParams.toString());
 
-      if (key !== "page") {
-         params.delete("page");
-      }
+         if (value) {
+            params.set(key, value);
+         } else {
+            params.delete(key);
+         }
 
-      router.push(`?${params.toString()}`);
-   };
+         if (key !== "page") {
+            params.delete("page");
+         }
 
-   const toggleFilter = (key: string, currentValue: string) => {
-      updateSearchParams(key, currentValue === "asc" ? "" : "asc");
-   };
+         router.push(`?${params.toString()}`);
+      },
+      [searchParams, router]
+   );
+
+   const toggleFilter = useCallback(
+      (key: string, currentValue: string) => {
+         updateSearchParams(key, currentValue === "asc" ? "" : "asc");
+      },
+      [updateSearchParams]
+   );
 
    const clearFilters = () => {
       router.push("/");
@@ -64,9 +76,10 @@ export const useProjects = () => {
       if (debouncedQuery !== query) {
          updateSearchParams("query", debouncedQuery);
       }
-   }, [debouncedQuery]);
+   }, [debouncedQuery, query, updateSearchParams]);
 
    return {
+      isThereFilters,
       projects: filteredProjects,
       totalCount,
       search,
