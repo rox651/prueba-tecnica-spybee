@@ -1,50 +1,61 @@
-import React from "react";
-import type { Project as ProjectType } from "../types/projects";
+"use client";
 import Image from "next/image";
 
 import { isValidUrl } from "@/features/core/helpers/isValidUrl";
+import { getIncidentsByItem } from "../helpers/getIncidentsByItem";
+import { getUserInitials } from "../helpers/getUserInitials";
+
+import type { Project as ProjectType } from "../types/projects";
 
 interface ProjectProps {
    project: ProjectType;
 }
 
+const MAX_USERS_TO_SHOW = 3;
 export const Project = ({ project }: ProjectProps) => {
-   const usersInitials = project.users.map(
-      user => user.name[0].toUpperCase() + user.lastName[0].toUpperCase()
-   );
+   const usersInitials = project.users.map(user => getUserInitials(user.name, user.lastName));
 
-   const incidentsByItem = Object.groupBy(project.incidents, incident => incident.item);
-   const incidentsLength = incidentsByItem.incidents?.length || 0;
-   const RFILength = incidentsByItem.RFI?.length || 0;
-   const tasksLength = incidentsByItem.task?.length || 0;
+   const usersInitialsToShow = usersInitials.slice(0, MAX_USERS_TO_SHOW);
+   const remainingUsers = usersInitials.length - MAX_USERS_TO_SHOW;
+
+   const { incidentsLength, RFILength, tasksLength } = getIncidentsByItem(project.incidents);
 
    const isValidImageUrl = isValidUrl(project.img);
 
    return (
-      <div>
-         {isValidImageUrl && (
-            <Image src={project.img} width={200} height={200} alt={`${project.title} - Cover`} />
-         )}
-         <h2>{project.title}</h2>
-         <p>{project.status}</p>
-         <p>{project.projectPlanData.plan}</p>
-         <div>
-            {usersInitials.map((initials, index) => (
-               <p
-                  key={index}
-                  style={{
-                     margin: 20,
-                  }}
-               >
-                  {initials}
-               </p>
-            ))}
-         </div>
-         <div>
-            <p> {RFILength}</p>
-            <p> {incidentsLength} </p>
-            <p> {tasksLength} </p>
-         </div>
-      </div>
+      <tr>
+         <td>
+            {isValidImageUrl && (
+               <Image src={project.img} width={200} height={200} alt={`${project.title} - Cover`} />
+            )}
+            {project.title}
+         </td>
+         <td>{project.status}</td>
+         <td>{project.projectPlanData.plan}</td>
+         <td>
+            <div>
+               {usersInitialsToShow.map(initial => (
+                  <p key={initial}>{initial}</p>
+               ))}
+               {remainingUsers > 0 && <p>+{remainingUsers}</p>}
+            </div>
+         </td>
+         <td>
+            <div>
+               <div>
+                  <p>{RFILength}</p>
+                  <p>RFIs</p>
+               </div>
+               <div>
+                  <p>{incidentsLength}</p>
+                  <p>Incidentes</p>
+               </div>
+               <div>
+                  <p>{tasksLength}</p>
+                  <p>Tareas</p>
+               </div>
+            </div>
+         </td>
+      </tr>
    );
 };

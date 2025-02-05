@@ -24,10 +24,12 @@ export type ClientData = {
    _id: string;
 };
 
+export type IncidentItem = "RFI" | "incidents" | "task";
+
 export type Incident = {
    _id: string;
    status: string;
-   item: "RFI" | "incidents" | "task";
+   item: IncidentItem;
    description: string;
    owner: string;
    tag: string;
@@ -66,4 +68,15 @@ export type ProjectPlanData = {
 export type User = {
    name: string;
    lastName: string;
+};
+
+export type Sort = "asc" | "";
+
+export type ProjectsFilter = {
+   projects: Project[];
+   query?: string;
+   sort?: Sort;
+   incidentsNumber?: Sort;
+   RFIsNumber?: Sort;
+   tasksNumber?: Sort;
 };

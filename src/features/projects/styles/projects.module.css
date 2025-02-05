@@ -1,0 +1,19 @@
+.projects__table {
+   width: 100%;
+   border-collapse: collapse;
+   border: 1px solid #ddd;
+}
+
+.projects__table th,
+.projects__table td {
+   text-align: left;
+   padding: 8px;
+}
+
+.projects__table th {
+   background-color: #f2f2f2;
+}
+
+.projects__table tr:nth-child(even) {
+   background-color: #f9f9f9;
+}
