@@ -67,10 +67,15 @@ export const useProjects = () => {
       [updateSearchParams]
    );
 
-   const clearFilters = () => {
+   const clearFilters = useCallback(() => {
       router.push("/");
       setSearch("");
-   };
+   }, [router, setSearch]);
+
+   const handlePageChange = useCallback(
+      (page: number) => updateSearchParams("page", page.toString()),
+      [updateSearchParams]
+   );
 
    useEffect(() => {
       if (debouncedQuery !== query) {
@@ -95,7 +100,7 @@ export const useProjects = () => {
       pagination: {
          currentPage,
          pageSize: ITEMS_PER_PAGE,
-         onPageChange: (page: number) => updateSearchParams("page", page.toString()),
+         onPageChange: handlePageChange,
       },
    };
 };
