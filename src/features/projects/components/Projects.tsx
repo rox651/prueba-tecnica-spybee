@@ -34,7 +34,7 @@ export const Projects = () => {
       (lng: number, lat: number) => {
          mapRef.current?.flyTo({
             center: [lng, lat],
-            zoom: 15,
+            zoom: 2,
          });
 
          const box = document.querySelector(".mapboxgl-map");

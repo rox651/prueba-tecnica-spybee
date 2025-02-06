@@ -5,7 +5,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 
 import type { Project as ProjectType } from "../types/projects";
 
-const INITIAL_ZOOM = 8;
+const INITIAL_ZOOM = 2;
 
 interface MapBoxProps {
    mapRef: React.RefObject<mapboxgl.Map | null>;
@@ -35,6 +35,8 @@ export const MapBox = ({ accessToken, className = "", mapRef, projects }: MapBox
 
       mapRef.current.addControl(new mapboxgl.NavigationControl());
 
+      mapRef.current.scrollZoom.disable();
+
       mapRef.current.on("move", () => {
          if (!mapRef.current) return;
 
@@ -62,7 +64,9 @@ export const MapBox = ({ accessToken, className = "", mapRef, projects }: MapBox
       });
 
       return () => {
-         mapRef.current?.remove();
+         if (mapRef.current) {
+            mapRef.current.remove();
+         }
       };
    }, [accessToken]);
 

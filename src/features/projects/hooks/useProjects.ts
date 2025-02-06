@@ -55,7 +55,7 @@ export const useProjects = () => {
             params.delete("page");
          }
 
-         router.push(`?${params.toString()}`);
+         router.push(`?${params.toString()}`, { scroll: false });
       },
       [searchParams, router]
    );
@@ -68,7 +68,7 @@ export const useProjects = () => {
    );
 
    const clearFilters = useCallback(() => {
-      router.push("/");
+      router.push("/", { scroll: false });
       setSearch("");
    }, [router, setSearch]);
 
