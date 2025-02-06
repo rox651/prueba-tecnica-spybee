@@ -1,3 +1,7 @@
+.project__row {
+   cursor: pointer;
+}
+
 .project__core {
    display: flex;
    align-items: center;

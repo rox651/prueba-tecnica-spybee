@@ -6,9 +6,10 @@ import type { Project as ProjectType } from "../types/projects";
 
 interface ProjectsTableProps {
    projects: ProjectType[];
+   handleClick: (lng: number, lat: number) => void;
 }
 
-const ProjectsTable = ({ projects }: ProjectsTableProps) => {
+const ProjectsTable = ({ projects, handleClick }: ProjectsTableProps) => {
    return (
       <div className={styles.projects__table__container}>
          <table className={styles.projects__table}>
@@ -23,7 +24,7 @@ const ProjectsTable = ({ projects }: ProjectsTableProps) => {
             </thead>
             <tbody>
                {projects.map(project => (
-                  <Project key={project._id} project={project} />
+                  <Project key={project._id} project={project} handleClick={handleClick} />
                ))}
             </tbody>
          </table>

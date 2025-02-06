@@ -1,23 +1,24 @@
 "use client";
+import styles from "@/features/projects/styles/project.module.css";
 import { memo } from "react";
 import Image from "next/image";
 
 import { isValidUrl } from "@/features/shared/helpers/isValidUrl";
 import { getIncidentsByItem } from "../helpers/getIncidentsByItem";
 import { getUserInitials } from "../helpers/getUserInitials";
-import styles from "@/features/projects/styles/project.module.css";
-
-import type { Project as ProjectType } from "../types/projects";
 import { getStatusProduct } from "../helpers/getStatusProduct";
 import { getPlanProduct } from "../helpers/getPlanProduct";
 
+import type { Project as ProjectType } from "../types/projects";
+
 interface ProjectProps {
    project: ProjectType;
+   handleClick: (lng: number, lat: number) => void;
 }
 
 const MAX_USERS_TO_SHOW = 4;
 
-const Project = ({ project }: ProjectProps) => {
+const Project = ({ project, handleClick }: ProjectProps) => {
    const usersInitials = project.users.map(user => getUserInitials(user.name, user.lastName));
 
    const remainingUsers = usersInitials.length - MAX_USERS_TO_SHOW;
@@ -29,8 +30,10 @@ const Project = ({ project }: ProjectProps) => {
    const planProduct = getPlanProduct(project.projectPlanData.plan);
    const isValidImageUrl = isValidUrl(project.img);
 
+   const { lng, lat } = project.position;
+
    return (
-      <tr>
+      <tr onClick={() => handleClick(lng, lat)} className={styles.project__row}>
          <td data-cell="project">
             <div className={styles.project__core}>
                {isValidImageUrl ? (

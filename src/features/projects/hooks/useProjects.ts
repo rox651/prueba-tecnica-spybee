@@ -25,8 +25,8 @@ export const useProjects = () => {
    const tasksNumber = (searchParams.get("tasks") || "") as Sort;
 
    const isThereFilters = useMemo(() => {
-      return !!sort || !!incidentsNumber || !!RFIsNumber || !!tasksNumber;
-   }, [sort, incidentsNumber, RFIsNumber, tasksNumber]);
+      return !!sort || !!incidentsNumber || !!RFIsNumber || !!tasksNumber || !!query;
+   }, [sort, incidentsNumber, RFIsNumber, tasksNumber, query]);
 
    const { filteredProjects, totalCount } = useMemo(() => {
       return filterProjects({
@@ -85,7 +85,8 @@ export const useProjects = () => {
 
    return {
       isThereFilters,
-      projects: filteredProjects,
+      projects,
+      filteredProjects,
       totalCount,
       search,
       setSearch,
