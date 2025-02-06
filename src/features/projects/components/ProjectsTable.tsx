@@ -1,3 +1,4 @@
+"use client";
 import { memo } from "react";
 import Project from "./Project";
 import styles from "@/features/projects/styles/projects.module.css";

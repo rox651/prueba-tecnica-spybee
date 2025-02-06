@@ -1,3 +1,4 @@
+"use client";
 import { useRef, useEffect, useState } from "react";
 import mapboxgl, { LngLatLike } from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -8,22 +9,18 @@ const INITIAL_ZOOM = 8;
 
 interface MapBoxProps {
    mapRef: React.RefObject<mapboxgl.Map | null>;
-   defaultPoints: LngLatLike;
    accessToken: string;
    projects: ProjectType[];
    className?: string;
 }
 
-export const MapBox = ({
-   accessToken,
-   className = "",
-   mapRef,
-   projects,
-   defaultPoints,
-}: MapBoxProps) => {
+export const MapBox = ({ accessToken, className = "", mapRef, projects }: MapBoxProps) => {
    const mapContainerRef = useRef<HTMLDivElement | null>(null);
    const [zoom, setZoom] = useState(INITIAL_ZOOM);
-   const [center, setCenter] = useState<LngLatLike>(defaultPoints);
+   const [center, setCenter] = useState<LngLatLike>([
+      projects[0].position.lng,
+      projects[0].position.lat,
+   ]);
 
    useEffect(() => {
       if (!mapContainerRef.current) return;

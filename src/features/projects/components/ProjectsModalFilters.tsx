@@ -9,15 +9,12 @@ import { useRef } from "react";
 import { useClickOutside } from "@/features/shared/hooks/useClickOutside";
 import { BiCheck } from "react-icons/bi";
 import { MdFilterAltOff } from "react-icons/md";
-import { RiMapPinFill, RiMapPinLine } from "react-icons/ri";
 
 interface ProjectsModalFiltersProps {
    filters: Omit<Required<ProjectsFilter>, "projects" | "query">;
    toggleFilter: (key: string, currentValue: string) => void;
    clearFilters: () => void;
    isThereFilters: boolean;
-   showMap: boolean;
-   setShowMap: (showMap: boolean) => void;
 }
 
 const ProjectsModalFilters = ({
@@ -25,8 +22,6 @@ const ProjectsModalFilters = ({
    toggleFilter,
    clearFilters,
    isThereFilters,
-   showMap,
-   setShowMap,
 }: ProjectsModalFiltersProps) => {
    const modalRef = useRef<HTMLDivElement>(null);
    const [isOpen, toggleIsOpen] = useToggle(false);
@@ -41,12 +36,6 @@ const ProjectsModalFilters = ({
       <div className={styles.projects__header__filters}>
          <button className={styles.projects__header__filters__button} onClick={toggleIsOpen}>
             {isOpen ? <BsFillFilterSquareFill /> : <BsFilterSquare />}
-         </button>
-         <button
-            className={styles.projects__header__filters__button}
-            onClick={() => setShowMap(!showMap)}
-         >
-            {showMap ? <RiMapPinFill /> : <RiMapPinLine />}
          </button>
          {isThereFilters && (
             <button className={styles.projects__header__filters__button} onClick={clearFilters}>

@@ -3,14 +3,12 @@ import { useProjects } from "@/features/projects/hooks/useProjects";
 import styles from "@/features/projects/styles/projects.module.css";
 import ProjectsModalFilters from "./ProjectsModalFilters";
 import ProjectsTable from "./ProjectsTable";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef } from "react";
 import { MapBox } from "./MapBox";
 import { API_MAP_GL_TOKEN } from "../data/constanst";
-import { LngLatLike } from "mapbox-gl";
 
 export const Projects = () => {
    const mapRef = useRef<mapboxgl.Map | null>(null);
-   const [showMap, setShowMap] = useState(false);
 
    const {
       projects,
@@ -24,11 +22,6 @@ export const Projects = () => {
       isThereFilters,
       pagination,
    } = useProjects();
-
-   const [defaultPoints, setDefaultPoints] = useState<LngLatLike>([
-      projects[0].position.lng,
-      projects[0].position.lat,
-   ]);
 
    const handleSearch = useCallback(
       (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,10 +37,15 @@ export const Projects = () => {
             zoom: 15,
          });
 
-         setDefaultPoints([lng, lat]);
-         setShowMap(true);
+         const box = document.querySelector(".mapboxgl-map");
+
+         if (box) {
+            box.scrollIntoView({
+               behavior: "smooth",
+            });
+         }
       },
-      [mapRef, setDefaultPoints, setShowMap]
+      [mapRef]
    );
 
    return (
@@ -63,8 +61,6 @@ export const Projects = () => {
                   toggleFilter={toggleFilter}
                   clearFilters={clearFilters}
                   isThereFilters={isThereFilters}
-                  showMap={showMap}
-                  setShowMap={setShowMap}
                />
                <input
                   className={styles.projects__header__search}
@@ -75,14 +71,7 @@ export const Projects = () => {
                />
             </div>
          </header>
-         {showMap && (
-            <MapBox
-               projects={projects}
-               mapRef={mapRef}
-               accessToken={API_MAP_GL_TOKEN}
-               defaultPoints={defaultPoints}
-            />
-         )}
+         <MapBox projects={projects} mapRef={mapRef} accessToken={API_MAP_GL_TOKEN} />
          <Pagination
             currentPage={pagination.currentPage}
             totalCount={totalCount}

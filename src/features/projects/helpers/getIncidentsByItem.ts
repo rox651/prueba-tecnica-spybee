@@ -1,10 +1,21 @@
-import type { Incident } from "../types/projects";
+import type { Incident, IncidentItem } from "../types/projects";
 
 export const getIncidentsByItem = (incidents: Incident[]) => {
-   const incidentsByItem = Object.groupBy(incidents, incident => incident.item);
-   const incidentsLength = incidentsByItem.incidents?.length || 0;
-   const RFILength = incidentsByItem.RFI?.length || 0;
-   const tasksLength = incidentsByItem.task?.length || 0;
+   const incidentsByItem = incidents.reduce(
+      (acc, incident) => {
+         acc[incident.item] = (acc[incident.item] || 0) + 1;
+         return acc;
+      },
+      {
+         incidents: 0,
+         RFI: 0,
+         task: 0,
+      } as Record<IncidentItem, number>
+   );
+
+   const incidentsLength = incidentsByItem.incidents;
+   const RFILength = incidentsByItem.RFI;
+   const tasksLength = incidentsByItem.task;
 
    return { incidentsLength, RFILength, tasksLength };
 };
